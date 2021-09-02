@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:layout_tools/layout_tools.dart';
 
+typedef LayoutScopeInherited = _LayoutScopeInherited;
+
 // ignore_for_file: unrelated_type_equality_checks
 
 /// A Widget for accessing a current
@@ -11,13 +13,17 @@ import 'package:layout_tools/layout_tools.dart';
 /// Use an [of] method to access a full Inherited Widget.
 /// For more detailed info use:
 ///
-/// * [sizeOf] to get current height and width
+/// * [sizeOf] to get currnet [MaterialSizes]
 /// * [deviceTypeOf] to get [DeviceType]
 class LayoutScope extends StatefulWidget {
   final Widget child;
   const LayoutScope({required this.child, Key? key}) : super(key: key);
 
-  static _LayoutScopeInherited? of(BuildContext context, {bool listen = true}) {
+  /// The data from the closest instance of this class that encloses the given context.
+  ///
+  /// Notice, that ResponsiveBuilders create new instance of [LayoutScope] above them
+  /// if they cannot find closest instance  in the widget tree
+  static LayoutScopeInherited? of(BuildContext context, {bool listen = true}) {
     if (listen) {
       final widget =
           context.dependOnInheritedWidgetOfExactType<_LayoutScopeInherited>();
@@ -29,9 +35,11 @@ class LayoutScope extends StatefulWidget {
     }
   }
 
-  static Size? sizeOf(BuildContext context, {bool listen = true}) =>
-      of(context, listen: listen)?.mediaQueryData.size;
+  /// Invokes [of] method and returns current MaterialSize
+  static MaterialSizes? sizeOf(BuildContext context, {bool listen = true}) =>
+      of(context, listen: listen)?.materialSize;
 
+  /// Invokes [of] method and returns device type
   static DeviceType? deviceTypeOf(BuildContext context, {bool listen = true}) =>
       of(context, listen: listen)?.deviceType;
 
@@ -49,6 +57,9 @@ class LayoutScope extends StatefulWidget {
 /// So you do not have to think about performance seeing [setState] in [didChangeMetrics]
 // ignore: prefer_mixin
 class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
+
+  MediaQueryData? _mediaQueryData;
+
   @override
   void didChangeMetrics() {
     setState(() {
@@ -69,8 +80,6 @@ class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  MediaQueryData? _mediaQueryData;
-
   @override
   void didChangeDependencies() {
     _mediaQueryData ??= MediaQueryData.fromWindow(window);
@@ -85,15 +94,17 @@ class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
 }
 
 class _LayoutScopeInherited extends InheritedWidget {
-  const _LayoutScopeInherited(
-      {required Widget child, required this.mediaQueryData})
-      : super(child: child);
+  const _LayoutScopeInherited({
+    required Widget child,
+    required this.mediaQueryData,
+  }) : super(child: child);
   final MediaQueryData mediaQueryData;
 
 // Orientation get _orientation => mediaQueryData.orientation;
 
   num get _logicalWidth => mediaQueryData.size.width;
 
+  /// Returns device type according to screen logical width
   DeviceType get deviceType {
     if (_logicalWidth < 600) {
       return DeviceType.handset;
@@ -104,6 +115,9 @@ class _LayoutScopeInherited extends InheritedWidget {
     }
   }
 
+  /// Returns [MaterialSizes] according to screen logical width
+  ///
+  /// For more info see [MaterialSizes] class
   MaterialSizes get materialSize {
     if (MaterialSizes.xsmall == _logicalWidth) {
       return MaterialSizes.xsmall;

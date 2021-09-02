@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:layout_tools/layout_tools.dart';
 
 void main() => runApp(
-      LayoutScope(child: MyApp()),
+       MyApp(),
     );
 
 class MyApp extends StatelessWidget {
@@ -31,11 +31,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: ResponsiveLayoutBuilder(
-        builder: (context, size) => Text(
-          size.toString(),
+        child: ResponsiveLayoutBuilder(
+          builder: (context, size) {
+            if (size == MaterialSizes.large) {
+              return Text('MaterialSizes.large');
+            } else {
+              return Text(
+                MaterialSizes.small.toString(),
+              );
+            }
+          },
         ),
-      )),
+      ),
     );
   }
 }
