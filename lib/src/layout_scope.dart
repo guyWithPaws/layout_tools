@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:layout_tools/layout_tools.dart';
 
+// ignore_for_file: unrelated_type_equality_checks
 
 /// A Widget for accessing a current
-/// layout information. 
-/// 
+/// layout information.
+///
 /// Use an [of] method to access a full Inherited Widget.
 /// For more detailed info use:
-/// 
+///
 /// * [sizeOf] to get current height and width
 /// * [deviceTypeOf] to get [DeviceType]
 class LayoutScope extends StatefulWidget {
@@ -28,21 +29,23 @@ class LayoutScope extends StatefulWidget {
     }
   }
 
-  static Size? sizeOf(BuildContext context, {bool listen = true}) => of(context, listen: listen)?.mediaQueryData.size;
+  static Size? sizeOf(BuildContext context, {bool listen = true}) =>
+      of(context, listen: listen)?.mediaQueryData.size;
 
-  static DeviceType? deviceTypeOf(BuildContext context, {bool listen = true}) => of(context, listen: listen)?.deviceType;
+  static DeviceType? deviceTypeOf(BuildContext context, {bool listen = true}) =>
+      of(context, listen: listen)?.deviceType;
 
   @override
   _LayoutScopeState createState() => _LayoutScopeState();
 }
 
 /// Note for advanced developers:
-/// 
+///
 /// [setState] in [didChangeMetrics] does not do any work
 /// because another setState is calling by MediaQuery Inherited Widget.
-/// 
+///
 /// For more info see [WidgetsApp] and [_MediaQueryFromWindow].
-/// 
+///
 /// So you do not have to think about performance seeing [setState] in [didChangeMetrics]
 // ignore: prefer_mixin
 class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
@@ -89,15 +92,29 @@ class _LayoutScopeInherited extends InheritedWidget {
 
 // Orientation get _orientation => mediaQueryData.orientation;
 
-  num get _logicalWidthFromPhysical => mediaQueryData.size.width;
+  num get _logicalWidth => mediaQueryData.size.width;
 
   DeviceType get deviceType {
-    if (_logicalWidthFromPhysical < 600) {
+    if (_logicalWidth < 600) {
       return DeviceType.handset;
-    } else if (_logicalWidthFromPhysical > 600 && _logicalWidthFromPhysical < 1280) {
+    } else if (_logicalWidth > 600 && _logicalWidth < 1280) {
       return DeviceType.tablet;
     } else {
       return DeviceType.desktop;
+    }
+  }
+
+  MaterialSizes get materialSize {
+    if (MaterialSizes.xsmall == _logicalWidth) {
+      return MaterialSizes.xsmall;
+    } else if (MaterialSizes.small == _logicalWidth) {
+      return MaterialSizes.small;
+    } else if (MaterialSizes.medium == _logicalWidth) {
+      return MaterialSizes.medium;
+    } else if (MaterialSizes.large == _logicalWidth) {
+      return MaterialSizes.large;
+    } else {
+      return MaterialSizes.xlarge;
     }
   }
 

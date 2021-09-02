@@ -16,7 +16,10 @@ enum DeviceType {
 class MaterialSizes {
   final num maxWidth;
   final num minWidth;
-  const MaterialSizes._(this.maxWidth, this.minWidth);
+  const MaterialSizes._(
+    this.minWidth,
+    this.maxWidth,
+  );
 
   static const MaterialSizes xsmall = MaterialSizes._(0, 599);
   static const MaterialSizes small = MaterialSizes._(600, 959);
@@ -24,13 +27,12 @@ class MaterialSizes {
   static const MaterialSizes large = MaterialSizes._(1280, 1919);
   static const MaterialSizes xlarge = MaterialSizes._(1920, double.infinity);
 
-
   @override
   int get hashCode => '$maxWidth$minWidth'.hashCode;
 
   @override
-  bool operator ==(Object other){
-    if(other is num){
+  bool operator ==(Object other) {
+    if (other is num) {
       return minWidth >= other || maxWidth <= other;
     } else if (other is MaterialSizes) {
       return other.minWidth == minWidth && other.maxWidth == maxWidth;
@@ -38,4 +40,8 @@ class MaterialSizes {
       return false;
     }
   }
+
+  @override
+  String toString() =>
+      'MaterialSize: minWidth - $minWidth, maxWidth - $maxWidth';
 }
