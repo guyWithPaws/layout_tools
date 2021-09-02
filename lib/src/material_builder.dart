@@ -20,7 +20,8 @@ class _ResponsiveLayoutBuilderState extends State<ResponsiveLayoutBuilder> {
   @override
   void didChangeDependencies() {
     final _scope = LayoutScope.of(context);
-    assert (_scope != null, 'Cannot find LayoutScope widget in widget tree.\nTo fix it, add LayoutScope widget to the root fo your widget tree');
+    assert(_scope != null,
+        'Cannot find LayoutScope widget in widget tree.\nTo fix it, add LayoutScope widget to the root fo your widget tree');
     if (_scope != null) {
       _type = _scope.deviceType;
       _size = _scope.materialSize;
