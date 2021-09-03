@@ -4,8 +4,7 @@ import 'package:layout_tools/src/export.dart';
 typedef ResponsiveLayoutWidgetBuilder = Widget Function(
     BuildContext context, MaterialSizes size);
 
-
-/// Buider, which delegates  
+/// Buider, which delegates
 class ResponsiveLayoutBuilder extends StatefulWidget {
   final ResponsiveLayoutWidgetBuilder builder;
   ResponsiveLayoutBuilder({required this.builder});

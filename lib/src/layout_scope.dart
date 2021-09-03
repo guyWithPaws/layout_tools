@@ -57,7 +57,6 @@ class LayoutScope extends StatefulWidget {
 /// So you do not have to think about performance seeing [setState] in [didChangeMetrics]
 // ignore: prefer_mixin
 class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
-
   MediaQueryData? _mediaQueryData;
 
   @override
