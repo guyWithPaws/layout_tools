@@ -47,14 +47,6 @@ class LayoutScope extends StatefulWidget {
   _LayoutScopeState createState() => _LayoutScopeState();
 }
 
-/// Note for advanced developers:
-///
-/// [setState] in [didChangeMetrics] does not do any work
-/// because another setState is calling by MediaQuery Inherited Widget.
-///
-/// For more info see [WidgetsApp] and [_MediaQueryFromWindow].
-///
-/// So you do not have to think about performance seeing [setState] in [didChangeMetrics]
 // ignore: prefer_mixin
 class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
   MediaQueryData? _mediaQueryData;
@@ -86,9 +78,12 @@ class _LayoutScopeState extends State<LayoutScope> with WidgetsBindingObserver {
   }
 
   @override
-  Widget build(BuildContext context) => _LayoutScopeInherited(
-        mediaQueryData: _mediaQueryData!,
-        child: widget.child,
+  Widget build(BuildContext context) => MediaQuery(
+        data: _mediaQueryData!,
+        child: _LayoutScopeInherited(
+          mediaQueryData: _mediaQueryData!,
+          child: widget.child,
+        ),
       );
 }
 
@@ -114,7 +109,7 @@ class _LayoutScopeInherited extends InheritedWidget {
     }
   }
 
-  /// Returns [MaterialSizes] according to screen logical width
+  /// Returns [MaterialSizes] according to the screen logical width
   ///
   /// For more info see [MaterialSizes] class
   MaterialSizes get materialSize {

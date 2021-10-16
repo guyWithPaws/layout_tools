@@ -2,7 +2,7 @@ name: layout_tools
 description: 
   Flutter package, which provides layout builders and tools for rcreating responsive apps.
   All breakpoints is set according to the Material Design Guidelines
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/guyWithPaws/layout_tools
 
 environment:

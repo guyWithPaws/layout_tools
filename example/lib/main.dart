@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:layout_tools/layout_tools.dart';
 
 void main() => runApp(
-      MyApp(),
+      LayoutScope(child: MyApp()),
     );
 
 class MyApp extends StatelessWidget {
@@ -33,11 +33,71 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: ResponsiveLayoutBuilder(
           builder: (context, size) {
-            if (size == MaterialSizes.large) {
-              return Text('MaterialSizes.large');
+            if (size == MaterialSizes.xsmall) {
+              return ListView.builder(
+                padding: EdgeInsets.all(10),
+                itemBuilder: (context, index) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: ColoredBox(
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+                itemCount: 100,
+              );
+            } else if (size == MaterialSizes.small) {
+              return GridView.builder(
+                padding: EdgeInsets.all(8),
+                itemCount: 100,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (context, index) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: ColoredBox(
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              );
+            } else if (size == MaterialSizes.medium) {
+              return GridView.builder(
+                padding: EdgeInsets.all(8),
+                itemCount: 100,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (context, index) => const Padding(
+                  padding:  EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: ColoredBox(
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              );
             } else {
-              return Text(
-                MaterialSizes.small.toString(),
+              return GridView.builder(
+                padding: EdgeInsets.all(8),
+                itemCount: 100,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4),
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: ColoredBox(
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
               );
             }
           },
